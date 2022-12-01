@@ -1,0 +1,94 @@
+/* standard includes */
+#include<math.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<string.h>
+
+/* extern includes */
+#include"calc.h"
+#include"stack.h"
+#include"utils.h"
+
+
+typedef enum{
+    integer,
+    floatingPoint,
+    operator,
+    function,
+    invalid
+} Type;
+
+typedef struct{
+    Type type;
+    char* data;
+} Token;
+
+Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list from standard notation to reverse polish */
+    Stack_t* operatorStack = st_createStack(); /* create op stack */
+    Stack_t* outputStack = st_createStack(); /* output stack */
+    char* token;
+    char op;
+
+    while(!st_isEmpty(tokens)){ /* while tokens exist */
+        token = (char*)st_pop(tokens); /* read token */
+        printf("Current RPN token: %s\n",token);
+        if(isNumeric(token)){ /* if token is numeric */
+            st_push(outputStack,token); /* push it onto output */
+            printf("Token [%s] is numeric - pushing to output stack! Output stack length: %d.\n",token,outputStack->length);
+        } else if (isAlphabetical(token)){ /* if function */
+            st_push(operatorStack,token);
+            printf("Token [%s] is a function - pushing to operator stack! Op Stack length: %d\n",token,operatorStack->length);
+        } else if(strlen(token) == 1 && isOperand(token[0])) { /* if op */
+            if(!st_isEmpty(operatorStack)){
+                op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/
+                printf("Token [%s] is an operator! Top of op stack is [%c], op stack length is [%d]",token,op,operatorStack->length);
+                while( (op != LBR && (isOperand(op) || op == RBR)) && ((opPrecedence(op) > opPrecedence(token[0])) || (opPrecedence(op) == opPrecedence(token[0]) && isLeftAssociative(token[0])) ) ){/* while operator is either rbr or an operator with either higher precedence or same with left associative token  */
+                    printf("Top operator [%c] was not a left paren and had either greater or equal with left assoc prec - pushing to output!",op);
+                    st_push(outputStack,st_pop(operatorStack)); /* pop top operator to output queue */
+                    op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/
+                }
+            }
+            printf("Pushing token [%s] to op stack, previous top of opstack: %c",token,op);
+            st_push(operatorStack,token); /* push token to op stack */
+        } else if (strlen(token) == 1 && token[0] == LBR) { /* if left bracket */
+            st_push(operatorStack,token); /* push onto op stack */
+            printf("Token [%s] is a left bracket - pushing to operator stack! Op Stack length: %d\n",token,operatorStack->length);
+        } else if (strlen(token) == 1 && token[0] == RBR) { /* if right bracket */
+            printf("Token [%s] is a right bracket!\n",token);
+            op = *((char*)st_peek(operatorStack));
+            while(op != LBR){ /* pop all operators until left bracket found */
+                if(st_isEmpty(operatorStack)){
+                    raiseError("Mismatched parenthesis! Right parenthesis with no match!\n",st_peek(tokens));
+                }
+                printf("Top operator [%c] of the operator stack was not a left bracket - pushing to output stack!\n",op);
+                st_push(outputStack,st_pop(operatorStack)); /* push from op stack to output */
+                op = *((char*)st_peek(operatorStack));
+            }
+            if(strlen((char*)st_peek(operatorStack)) != 1 && *((char*)st_peek(operatorStack)) != LBR){
+                raiseError("Mismatched parenthesis! No left parenthesis at stack top!\n",st_peek(tokens));
+            } else {
+                printf("Discarding top left bracket!\n");
+                st_pop(operatorStack); /* discard the left parenthesis */
+            } 
+            if(isAlphabetical(st_peek(operatorStack))){ /* if top of op stack is a function */
+                printf("Top of operator stack [%s] is a function - pushing to output stack!\n",(char*)st_peek(operatorStack));
+                st_push(outputStack,st_pop(operatorStack)); /* move it to output stack */
+            } else {
+                printf("Top of operator stack [%s] was not a function!\n",(char*)st_peek(operatorStack));
+            }
+        } else {
+            raiseError("Token Ignored! Token provided was not numeric, alphabetical, operand or bracket).\n",token);
+        }
+    }
+    printf("All tokens read!\n");
+    while(!st_isEmpty(operatorStack)){ /* while tokens are on operator stack */
+        if(strlen((char*)st_peek(operatorStack)) != 1 && *((char*)st_peek(operatorStack)) == LBR){ /* check if there's a left bracket */
+                    raiseError("Mismatched parenthesis! Left parenthesis at operator stack top after final token!\n",st_peek(operatorStack));
+        }
+        printf("Moved token [%s] from operator stack to output!",(char*)st_peek(outputStack));
+        st_push(outputStack, st_pop(operatorStack)); /* move the tokens over */   
+    }
+    outputStack = st_reverseStack(outputStack);
+    st_deleteStack(operatorStack);
+    return outputStack;
+}
