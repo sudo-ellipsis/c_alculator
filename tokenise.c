@@ -33,12 +33,10 @@ Stack_t* tokenise(char* str){
             } else if(isDigit(token)){ /* basically the same as alphabetical */
                 while(isDigit(token) && currentChar < (int)strlen(str)){ /* while chars read are digits */
                     buf[bufLength] = token; /* write token to buffer */
-                    printf("%d,",currentChar);
                     currentChar++; /* advance one character in input string */
                     bufLength++; /* advance to next buffer address */
                     token = str[currentChar]; /* update token */
                 }
-                printf("\n");
                 currentChar--; /* avoid over-increment */
                 data = malloc((bufLength + 1) * sizeof(char)); /* allocate memory for token w/ nullptr space */
                 memcpy(data,buf,bufLength + 1); /* copy relevant data from buffer */
@@ -48,8 +46,7 @@ Stack_t* tokenise(char* str){
                 data[0] = token;
                 st_push(tokenOutput,data);
             }
-        }
-        printf("buf: [%s], top token: [%c]\n",buf,str[currentChar]);      
+        }  
     }
 
     tokenOutput = st_reverseStack(tokenOutput);

@@ -21,6 +21,7 @@ int main(void){
             printf("Input: \"%s\"\n",input);
             if(strcmp(input,"EXIT") != 0){ /* check for EXIT string */
                 parsedInput = rpn(tokenise(input));
+
                 printf("Tokens returned by RPN parser:\n[");
                     while(!st_isEmpty(parsedInput)){
                         data = (char*)st_pop(parsedInput);
@@ -30,6 +31,7 @@ int main(void){
                             printf(" ");
                         }
                     }
+                st_deleteStack(parsedInput);
                 printf("]\n");
             } else {
                 printf("Exiting...\n");
