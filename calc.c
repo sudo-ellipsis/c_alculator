@@ -8,11 +8,11 @@
 #include"rpn.h"
 #include"stack.h"
 #include"tokenise.h"
+#include"eval.h"
 
 int main(void){
-    char* data;
     char *input = calloc((INPUT_BUFSIZE + 1),sizeof(char));
-    Stack_t* parsedInput;
+    Token_t* result;
     
     while(strcmp(input,"EXIT") != 0){
         printf("Enter an expression, or type EXIT to exit\n>");
@@ -20,19 +20,10 @@ int main(void){
             input[strcspn(input,"\n")] = '\0'; /* turn the newline into a null term */
             printf("Input: \"%s\"\n",input);
             if(strcmp(input,"EXIT") != 0){ /* check for EXIT string */
-                parsedInput = rpn(tokenise(input));
-
-                printf("Tokens returned by RPN parser:\n[");
-                    while(!st_isEmpty(parsedInput)){
-                        data = (char*)st_pop(parsedInput);
-                        printf("%s",data);
-                        free(data);
-                        if(!st_isEmpty(parsedInput)){
-                            printf(" ");
-                        }
-                    }
-                st_deleteStack(parsedInput);
-                printf("]\n");
+                result = evaluateRPN(rpn(tokenise(input)));
+                printf("Result: %s\n",result->value);
+                free(result->value);
+                free(result);
             } else {
                 printf("Exiting...\n");
             }

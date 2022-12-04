@@ -1,3 +1,6 @@
+#ifndef CALC_H
+#define CALC_H
+
 /* directions */
 #define LEFT_ASSOCIATIVE 0
 #define RIGHT_ASSOCIATIVE 1
@@ -12,7 +15,6 @@
 #define COMMA ','
 #define LBR '('
 #define RBR ')'
-#define FACTORIAL '!'
 
 /* data types */
 #define INT "%d"
@@ -30,7 +32,7 @@
 #define INPUT_BUFSIZE ((int)1023)
 
 /* function definitions */
-#define FUNCTION_COUNT 15
+#define FUNCTION_COUNT 17
 #define SIN "sin"
 #define COS "cos"
 #define TAN "tan"
@@ -46,3 +48,24 @@
 #define ARCTAN "atan"
 #define SQRT "sqrt"
 #define CBRT "cbrt"
+#define TORAD "toRad"
+#define FACTORIAL "factorial"
+
+/* custom datatypes */
+typedef enum{
+    integer,
+    decimal,
+    operator,
+    function,
+    invalid
+} Type;
+
+typedef struct{
+    char* value;
+    Type type;
+} Token_t;
+
+typedef double (*mathFn)(double);
+
+
+#endif

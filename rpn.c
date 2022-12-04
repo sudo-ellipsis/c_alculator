@@ -60,7 +60,6 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
         }
         st_push(outputStack, st_pop(operatorStack)); /* move the tokens over */   
     }
-    outputStack = st_reverseStack(outputStack);
     st_deleteStack(operatorStack);
-    return outputStack;
+    return outputStack; /* the output is reversed from regular RPN */
 }

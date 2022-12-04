@@ -11,4 +11,9 @@ int isFunction(char* str);
 int opPrecedence(char op);
 int isLeftAssociative(char op);
 void raiseError(char* errorMsg,char* badValue);
+Type getNumericDatatype(char* token);
+Type getTokenDatatype(char* token);
+double getDoubleOfNumeric(char* value,Type type);
+double degToRad(double angle);
+double factorial(double x);
 #endif
