@@ -38,7 +38,7 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
             st_push(operatorStack,token); /* push token to op stack */
         } else if (strlen(token) == 1 && token[0] == LBR) { /* if left bracket */
             st_push(operatorStack,token); /* push onto op stack */
-        } else if (strlen(token) == 1 && token[0] == RBR) { /* if right bracket */
+        } else if (strlen(token) == 1 && token[0] == RBR && !st_isEmpty(operatorStack)) { /* if right bracket */
             op = *((char*)st_peek(operatorStack));
             while(op != LBR){ /* pop all operators until left bracket found */
                 if(st_isEmpty(operatorStack)){
@@ -52,16 +52,16 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
             } else {
                 st_pop(operatorStack); /* discard the left parenthesis */
             } 
-            if(isAlphabetical(st_peek(operatorStack))){ /* if top of op stack is a function */
+            if(!st_isEmpty(operatorStack) && isAlphabetical(st_peek(operatorStack))){ /* if top of op stack is a function */
                 st_push(outputStack,st_pop(operatorStack)); /* move it to output stack */
             } else {
             }
         } else {
-            raiseError("Token Ignored! Token provided was not numeric, alphabetical, operand or bracket).\n",token);
+            raiseError("Token Ignored! Token provided was not numeric, alphabetical, operand or valid bracket\n",token);
         }
     }
     while(!st_isEmpty(operatorStack)){ /* while tokens are on operator stack */
-        if(strlen((char*)st_peek(operatorStack)) != 1 && *((char*)st_peek(operatorStack)) == LBR){ /* check if there's a left bracket */
+        if(strlen((char*)st_peek(operatorStack)) != 1 && ((char*)st_peek(operatorStack))[0] == LBR){ /* check if there's a left bracket */
                     raiseError("Mismatched parenthesis! Left parenthesis at operator stack top after final token!\n",st_peek(operatorStack));
         }
         st_push(outputStack, st_pop(operatorStack)); /* move the tokens over */   

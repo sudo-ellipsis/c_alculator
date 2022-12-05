@@ -51,7 +51,7 @@ int isAlphabetical(char* str){
 
 int isFunction(char* str){
     int i,retval = FALSE;
-    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL};
+    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, POW10};
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(validFunctions[i],str) == 0){
             retval = TRUE;
@@ -90,24 +90,28 @@ double getConstantValue(char* str){
 int opPrecedence(char op){
     int prec;
     switch(op){ /* B I M D A S */
+        case LBR:
+        case RBR:
+            prec=4;
+            break;
         case POW:
-            prec = 4;
+            prec = 3;
             break;
         case MULT:
         case DIV:
         case MOD:
-            prec = 3;
+            prec = 2;
             break;
         case ADD:
         case SUB:
-            prec = 2;
+            prec = 1;
             break;
     }
     return prec;
 }
 
 void raiseError(char* errorMsg,char* badValue){
-    printf("Error: %s\nAdditional information: %s\n",errorMsg,badValue);
+    printf("Error: %s at position %s\n",errorMsg,badValue);
     return;
 }
 
@@ -197,4 +201,11 @@ double radToDeg(double angle){
 double tgamma(double);
 double factorial(double x){
     return tgamma(x+1);
+}
+
+double pow10(double x){
+    if(x < 0){ /* stupid off by one where pow (10,-2) == 0.1 */
+        x--;
+    }
+    return pow(10,x);
 }

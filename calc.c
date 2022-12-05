@@ -68,7 +68,12 @@ int main(int argc, char** argv){
                 if(strcmp(input,"EXIT") != 0){ /* check for EXIT string */
                     /* printf("Evaluating [%s]\n",input); */
                     result = evaluateRPN(rpn(tokenise(input)));
-                    printf("\033[1;35m%-.16g\033[39m\n",getDoubleOfNumeric(result->value,result->type));
+                    if(result->type == decimal || result->type == integer){
+                        printf("\033[1;35m%-.16g\033[39m\n",getDoubleOfNumeric(result->value,result->type));
+                    } else {
+                        printf("\033[1;31mNaN\033[39m\n");
+                    }
+                    
                     free(result->value);
                     free(result);
                 } else if(strcmp(input,"HELP")==0){

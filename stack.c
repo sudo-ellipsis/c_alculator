@@ -24,7 +24,7 @@ void st_push(Stack_t* stack, void* data){ /* insert */
 void* st_pop(Stack_t* stack){ /* remove, return */
     void* headContent = stack->head->data;
     StackMember_t* oldHead = stack->head;
-    if(stack->length != 0){
+    if(stack->length > 0){
         stack->head = stack->head->next;
         (stack->length)--;
         free(oldHead);
@@ -41,8 +41,7 @@ void* st_peek(Stack_t* stack){ /* return topmost */
 } 
 
 void st_deleteStack(Stack_t* stack){ /* recursively delete stack */
-    int i;
-    for(i=0;i<stack->length;i++){
+    while(!st_isEmpty(stack)){
         st_pop(stack);
     }
     free(stack);

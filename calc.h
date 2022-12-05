@@ -35,7 +35,7 @@
 #define INPUT_BUFSIZE ((int)1023)
 
 /* function definitions */
-#define FUNCTION_COUNT 18
+#define FUNCTION_COUNT 19
 #define SIN "sin"
 #define COS "cos"
 #define TAN "tan"
@@ -54,6 +54,8 @@
 #define TORAD "toRad"
 #define TODEG "toDeg"
 #define FACTORIAL "factorial"
+#define POW10 "e"
+
 
 /* custom datatypes */
 typedef enum{

@@ -19,4 +19,5 @@ double getDoubleOfNumeric(char* value,Type type);
 double degToRad(double angle);
 double radToDeg(double angle);
 double factorial(double x);
+double pow10(double x);
 #endif
