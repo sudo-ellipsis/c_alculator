@@ -20,7 +20,11 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
         if(isNumeric(token)){ /* if token is numeric */
             st_push(outputStack,token); /* push it onto output */
         } else if (isAlphabetical(token)){ /* if function */
-            st_push(operatorStack,token);
+            if(isConstant(token)){
+                st_push(outputStack,token);
+            } else {
+                st_push(operatorStack,token);
+            }
         } else if(strlen(token) == 1 && isOperand(token[0])) { /* if op */
             if(!st_isEmpty(operatorStack)){
                 op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/

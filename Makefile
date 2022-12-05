@@ -7,7 +7,7 @@ OBJ = calc.o rpn.o utils.o tokenise.o stack.o eval.o
 $(EXEC_NAME): $(OBJ)
 	$(COMPILER) $(CFLAGS) $(OBJ) -lm -o $(EXEC_NAME)
 
-calc.o: calc.c calc.h rpn.h stack.h tokenise.h eval.h
+calc.o: calc.c calc.h rpn.h stack.h tokenise.h eval.h utils.h
 	$(COMPILER) $(CFLAGS) calc.c -c
 
 rpn.o: rpn.c calc.h stack.h utils.h 

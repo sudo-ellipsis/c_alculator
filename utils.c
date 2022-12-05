@@ -51,7 +51,7 @@ int isAlphabetical(char* str){
 
 int isFunction(char* str){
     int i,retval = FALSE;
-    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, FACTORIAL};
+    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL};
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(validFunctions[i],str) == 0){
             retval = TRUE;
@@ -59,6 +59,33 @@ int isFunction(char* str){
     }
     return retval;
 }
+
+int isConstant(char* str){
+   int i, retval = FALSE;
+   char* constants[CONSTANT_COUNT] = {PI_ID,PHI_ID,EUL_ID};
+   for(i=0;i<2;i++){
+        if(strcmp(constants[i],str) == 0){
+            retval = TRUE;
+        }
+    }
+    return retval;
+}
+
+double getConstantValue(char* str){ 
+    /* we can assume that there is no required match fail return value, 
+    as it is guaranteed to be a constant (uses same list as isConstant) */
+    int i;
+    double db;
+    char* constants[CONSTANT_COUNT] = {PI_ID,PHI_ID,EUL_ID};
+    double constantValues[CONSTANT_COUNT] = {PI,PHI,EUL};
+    for(i=0;i<CONSTANT_COUNT;i++){
+        if(strcmp(str,constants[i])==0){
+            db = constantValues[i];
+        }
+    }
+    return db;
+}
+
 
 int opPrecedence(char op){
     int prec;
@@ -132,6 +159,8 @@ Type getTokenDatatype(char* token){
     if(isAlphabetical(token)){
         if(isFunction(token)){
             retval = function;
+        } else if(isConstant(token)) {
+            retval = decimal;
         } /* otherwise it's invalid */
     } else if(isNumeric(token)){
         retval = getNumericDatatype(token);
@@ -143,12 +172,16 @@ Type getTokenDatatype(char* token){
 
 double getDoubleOfNumeric(char* value,Type type){
     double db;
-    if (type == integer){
-        int i;
-        sscanf(value,"%d",&i);
-        db = (double)i;
+    if(isConstant(value)){
+        db = getConstantValue(value);
     } else {
-        sscanf(value,"%lf",&db);
+        if (type == integer){
+            int i;
+            sscanf(value,"%d",&i);
+            db = (double)i;
+        } else {
+            sscanf(value,"%lf",&db);
+        }
     }
     return db;
 }
@@ -157,7 +190,11 @@ double degToRad(double angle){
     return angle * PI/180;
 }
 
+double radToDeg(double angle){
+    return angle * 180 / PI;
+}
+
 double tgamma(double);
 double factorial(double x){
-    return tgamma(x++);
+    return tgamma(x+1);
 }

@@ -24,15 +24,18 @@
 /* constants */
 #define FALSE 0
 #define TRUE 1
+#define CONSTANT_COUNT 3
 #define PI_ID "pi"
+#define PHI_ID "phi"
 #define EUL_ID "e"
+#define PHI ((double)1.61803398874989484820)
 #define PI ((double)3.141592653589793)
 #define EUL ((double)2.7182818285)
 
 #define INPUT_BUFSIZE ((int)1023)
 
 /* function definitions */
-#define FUNCTION_COUNT 17
+#define FUNCTION_COUNT 18
 #define SIN "sin"
 #define COS "cos"
 #define TAN "tan"
@@ -49,6 +52,7 @@
 #define SQRT "sqrt"
 #define CBRT "cbrt"
 #define TORAD "toRad"
+#define TODEG "toDeg"
 #define FACTORIAL "factorial"
 
 /* custom datatypes */
