@@ -24,9 +24,11 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
         } else if(strlen(token) == 1 && isOperand(token[0])) { /* if op */
             if(!st_isEmpty(operatorStack)){
                 op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/
-                while( (op != LBR && (isOperand(op) || op == RBR)) && ((opPrecedence(op) > opPrecedence(token[0])) || (opPrecedence(op) == opPrecedence(token[0]) && isLeftAssociative(token[0])) ) ){/* while operator is either rbr or an operator with either higher precedence or same with left associative token  */
+                while( !st_isEmpty(operatorStack) && (op != LBR && (isOperand(op) || op == RBR)) && ((opPrecedence(op) > opPrecedence(token[0])) || (opPrecedence(op) == opPrecedence(token[0]) && isLeftAssociative(token[0])) ) ){/* while operator is either rbr or an operator with either higher precedence or same with left associative token  */
                     st_push(outputStack,st_pop(operatorStack)); /* pop top operator to output queue */
-                    op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/
+                    if(!st_isEmpty(operatorStack)){
+                        op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/
+                    }
                 }
             }
             st_push(operatorStack,token); /* push token to op stack */

@@ -16,9 +16,6 @@ mathFn findMathFn(char* functionName){
     char* functionNames[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, FACTORIAL};
     mathFn functions[FUNCTION_COUNT] = {&sin,&cos,&tan,&log10,&log,&fabs,&floor,&round,&ceil,&exp,&asin,&acos,&atan,&sqrt,&cbrt,&degToRad, &factorial};
     int i,fn;
-
-    printf("Finding math function with name %s\n",functionName);
-
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(functionName,functionNames[i])==0){
             fn = i;
@@ -29,15 +26,11 @@ mathFn findMathFn(char* functionName){
 
 Token_t* doOperation(Token_t* operand, Token_t* firstValue, Token_t* secondValue){
     Token_t* result = malloc(sizeof(Token_t));
-    double rVal, lVal, resultantVal;
-    lVal = getDoubleOfNumeric(firstValue->value,firstValue->type);
-    rVal = getDoubleOfNumeric(secondValue->value,secondValue->type);
-
+    double rVal, lVal, resultantVal; 
+    lVal = getDoubleOfNumeric(firstValue->value,firstValue->type); /* left value of expr */
+    rVal = getDoubleOfNumeric(secondValue->value,secondValue->type); /* right value */
     result->value = calloc(64,sizeof(char)); /* large buffer */ 
-
-    printf("Doing operation with operand %s and values %s, %s. Expr: %f%s%f. Char 0 of operand: %c\n",operand->value,firstValue->value,secondValue->value,lVal,operand->value,rVal,operand->value[0]);
-
-    switch(operand->value[0]){
+    switch(operand->value[0]){ /* do operand */
         case ADD:
             resultantVal = lVal + rVal;
             break;
@@ -57,11 +50,9 @@ Token_t* doOperation(Token_t* operand, Token_t* firstValue, Token_t* secondValue
             resultantVal = fmod(lVal,rVal);  
             break;
     }
-
-    result->type = decimal;
-    sprintf(result->value,"%f",resultantVal);
-    printf("Resultant value: %s\n",result->value);
-
+    result->type = decimal; /* set to double type */
+    sprintf(result->value,"%f",resultantVal); /* convert back to string */
+    /* remove used tokens */
     free(operand->value);
     free(operand);
     free(firstValue->value);
@@ -73,13 +64,12 @@ Token_t* doOperation(Token_t* operand, Token_t* firstValue, Token_t* secondValue
 
 Token_t* doFunction(Token_t* function, Token_t* arg){
     Token_t* result = malloc(sizeof(Token_t));
-    double db = getDoubleOfNumeric(arg->value,arg->type);
+    double db = getDoubleOfNumeric(arg->value,arg->type); /* convert tokent to double */
     result->value = malloc(64*sizeof(char)); /* malloc space for the char - oversized */
-    sprintf(result->value,"%f",findMathFn(function->value)(db));
-    result->type = decimal;
+    sprintf(result->value,"%f",findMathFn(function->value)(db)); /* evaluate function and reconvert to string */
+    result->type = decimal; /* set type of value to double */
 
-    printf("resultant value: %s\n",result->value);
-
+    /* free useless tokens */
     free(function->value); 
     free(function);
     free(arg->value); 

@@ -18,7 +18,6 @@ int main(void){
         printf("Enter an expression, or type EXIT to exit\n>");
         if(fgets(input,INPUT_BUFSIZE,stdin)){ /* read something */
             input[strcspn(input,"\n")] = '\0'; /* turn the newline into a null term */
-            printf("Input: \"%s\"\n",input);
             if(strcmp(input,"EXIT") != 0){ /* check for EXIT string */
                 result = evaluateRPN(rpn(tokenise(input)));
                 printf("Result: %s\n",result->value);
