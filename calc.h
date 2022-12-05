@@ -15,6 +15,7 @@
 #define COMMA ','
 #define LBR '('
 #define RBR ')'
+#define SCIENTIFIC_NOT 'E'
 
 /* data types */
 #define INT "%d"
@@ -35,7 +36,7 @@
 #define INPUT_BUFSIZE ((int)1023)
 
 /* function definitions */
-#define FUNCTION_COUNT 18
+#define FUNCTION_COUNT 21
 #define SIN "sin"
 #define COS "cos"
 #define TAN "tan"
@@ -54,7 +55,9 @@
 #define TORAD "toRad"
 #define TODEG "toDeg"
 #define FACTORIAL "factorial"
-
+#define INVERT_N "n"
+#define INVERT_M "m"
+#define INVERT_UNDERSCORE "_"
 
 /* custom datatypes */
 typedef enum{

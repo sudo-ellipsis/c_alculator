@@ -13,7 +13,7 @@ Mostly just short flexible utilities (e.g, is a given string numeric)
 #include"calc.h"
 
 int isAlphabeticalChar(char ch){
-    return (strchr("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",ch) != NULL);
+    return (strchr("abcdefghijklmnopqrstuvwxyzABCDFGHIJKLMNOPQRSTUVWXYZ_",ch) != NULL); /* no capital E, it's reserved as the scientific operator */
 }
 
 int isDigit(char ch){
@@ -21,7 +21,7 @@ int isDigit(char ch){
 }
 
 int isOperand(char ch){
-    char operands[] = {ADD,SUB,MULT,DIV,POW,MOD};
+    char operands[] = {ADD,SUB,MULT,DIV,POW,MOD,SCIENTIFIC_NOT};
     return (strchr(operands,ch) != NULL);
 }
 
@@ -51,7 +51,7 @@ int isAlphabetical(char* str){
 
 int isFunction(char* str){
     int i,retval = FALSE;
-    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL};
+    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, INVERT_N, INVERT_M, INVERT_UNDERSCORE};
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(validFunctions[i],str) == 0){
             retval = TRUE;
@@ -90,6 +90,11 @@ double getConstantValue(char* str){
 int opPrecedence(char op){
     int prec;
     switch(op){ /* B I M D A S */
+        case SCIENTIFIC_NOT:
+            prec = 5; /* bodge scientific notation numbers to the top, 
+                        as they're not actually a "rea" operator, but are
+                        meant to denote a number - evaluating them takes priority*/
+            break;
         case LBR:
         case RBR:
             prec=4;
@@ -126,6 +131,7 @@ int isLeftAssociative(char op){
         case COMMA:
         case RBR:
         case LBR:
+        case SCIENTIFIC_NOT:
             retval = TRUE;
             break;
         case POW: /* assuming power is right associative */
@@ -208,4 +214,8 @@ double pow10(double x){
         x--;
     }
     return pow(10,x);
+}
+
+double invert(double x){
+    return -1 * x;
 }

@@ -13,8 +13,8 @@ double round(double);
 double cbrt(double);
 
 mathFn findMathFn(char* functionName){
-    char* functionNames[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL};
-    mathFn functions[FUNCTION_COUNT] = {&sin,&cos,&tan,&log10,&log,&fabs,&floor,&round,&ceil,&exp,&asin,&acos,&atan,&sqrt,&cbrt,&degToRad, &radToDeg, &factorial};
+    char* functionNames[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, INVERT_N, INVERT_M, INVERT_UNDERSCORE};
+    mathFn functions[FUNCTION_COUNT] = {&sin,&cos,&tan,&log10,&log,&fabs,&floor,&round,&ceil,&exp,&asin,&acos,&atan,&sqrt,&cbrt,&degToRad, &radToDeg, &factorial, &invert, &invert, &invert};
     int i,fn;
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(functionName,functionNames[i])==0){
@@ -22,27 +22,6 @@ mathFn findMathFn(char* functionName){
         }
     }
     return functions[fn];  
-}
-
-Token_t* signValue(Token_t* operand, Token_t* value){
-    Token_t* result = malloc(sizeof(Token_t));
-    double db;
-    result->value = malloc(64*sizeof(char));
-    switch(operand->value[0]){
-        case '-':
-            db = -1 * getDoubleOfNumeric(value->value,value->type);
-            break;
-        case '+':
-            db = 1 * getDoubleOfNumeric(value->value,value->type);
-            break;
-    }
-    result->type = decimal; /* set to double type */
-    sprintf(result->value,"%f",db); /* convert back to string */
-    free(operand->value);
-    free(operand);
-    free(value->value);
-    free(value);
-    return result;
 }
 
 Token_t* doOperation(Token_t* operand, Token_t* firstValue, Token_t* secondValue){
@@ -69,6 +48,9 @@ Token_t* doOperation(Token_t* operand, Token_t* firstValue, Token_t* secondValue
             break;
         case MOD:
             resultantVal = fmod(lVal,rVal);  
+            break;
+        case SCIENTIFIC_NOT:
+            resultantVal = lVal * pow(10,rVal);
             break;
     }
     result->type = decimal; /* set to double type */
@@ -120,7 +102,7 @@ Token_t* evaluateRPN(Stack_t* tokens){
 
     while(RPN->length > 0 && isValid){
         tk = (Token_t*)st_pop(RPN);
-        /* printf("Validity at position %s: %d\n",tk->value,isValid); */
+        printf("%s\n",tk->value);
         if(tk->type == integer || tk->type == decimal){
             st_push(values,tk);
         } else if (tk->type == function){
@@ -133,8 +115,6 @@ Token_t* evaluateRPN(Stack_t* tokens){
         } else if (tk->type == operator){
             if(values->length >= 2){
                 st_push(values,doOperation(tk,st_pop(values),st_pop(values)));
-            } else if( tk->value[0] == '-'  && values->length >= 1){
-                st_push(values,signValue(tk,st_pop(values)));
             } else {
                 raiseError("Token mismatch! Not enough tokens for operator",tk->value);
                 isValid = FALSE;

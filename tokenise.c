@@ -20,7 +20,7 @@ Stack_t* tokenise(char* str){
         bufLength=0; /* reset buffer index */
         if(!isIgnorable(token)){
             if(isAlphabeticalChar(token)){ /* if regular char */
-                while(isAlphabeticalChar(token) && currentChar < (int)strlen(str)){ /* while chars read are alphabetical */
+                while(isAlphabeticalChar(token) && currentChar < (int)strlen(str) && !isFunction(buf)){ /* while chars read are alphabetical */
                     buf[bufLength] = token; /* write token to buffer */
                     currentChar++; /* advance one character in input string */
                     bufLength++; /* advance to next buffer address */

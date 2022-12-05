@@ -15,15 +15,19 @@ void printHelp(void){
     printf(
     "calc - a simple C calculator by ellipsis (@sudo-ellipsis, ellipsis#1984)\n"
     "--------------------------------------------------------\n"
-    "INFORMATION:\n"
+    "IMPORTANT NOTES:\n"
     "All trigonometric calculations take radians\n"
     "All non operator or alphabetical characters will be discarded\n"
     "All values are calculated as doubles\n"
+    "To express scientific notation, use a large \x1b[32mE\033[39m (1\x1b[32mE\033[39m3 == 1000)\n"
+    );
+    printf(
+    "Negative numbers are expressed using \x1b[32m_\033[39m, \x1b[32mn\033[39m or \x1b[32mm\033[39m (\x1b[32m_\033[39m3\x1b[32m^\033[39m == 9)\n"
     );
     printf(
     "VALID OPERATORS:\n"
     "\x1b[32m+\033[39m, \x1b[32m-\033[39m, \x1b[32m*\033[39m, \x1b[32m/\033[39m,\x1b[32m %%\033[39m, \x1b[32m^\033[39m\n"
-    "The power operator [\x1b[32m^\033[39m] is right associative\n"
+    "The power operator [\x1b[32m^\033[39m] is right associative (2\x1b[32m^\033[39m2\x1b[32m^\033[39m3 == 256)\n"
     );
     printf(
     "VALID FUNCTIONS:\n"
@@ -65,7 +69,9 @@ int main(int argc, char** argv){
         while(strcmp(input,"EXIT") != 0){
             if(fgets(input,INPUT_BUFSIZE,stdin)){ /* read something */
                 input[strcspn(input,"\n")] = '\0'; /* turn the newline into a null term */
-                if(strcmp(input,"EXIT") != 0){ /* check for EXIT string */
+                if(strcmp(input, "HELP") ==0){
+                    printHelp();
+                } else if(strcmp(input,"EXIT") != 0){ /* check for EXIT string */
                     /* printf("Evaluating [%s]\n",input); */
                     result = evaluateRPN(rpn(tokenise(input)));
                     if(result->type == decimal || result->type == integer){

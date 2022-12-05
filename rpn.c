@@ -12,19 +12,32 @@
 Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list from standard notation to reverse polish */
     Stack_t* operatorStack = st_createStack(); /* create op stack */
     Stack_t* outputStack = st_createStack(); /* output stack */
-    char* token;
+    char* token; 
+    char* tmp;
     char op;
+    int negativeCount = 0;
+    int i;
 
     while(!st_isEmpty(tokens)){ /* while tokens exist */
         token = (char*)st_pop(tokens); /* read token */
         if(isNumeric(token)){ /* if token is numeric */
             st_push(outputStack,token); /* push it onto output */
+            if(negativeCount){
+                for(i=0;i<negativeCount;i++){ /* while there are negatives  */
+                    tmp = calloc(2,sizeof(char)); /* alloc and set memory */
+                    tmp[0] = '_';
+                    st_push(outputStack,tmp); /* push a negative operator to output stack */
+                } 
+                negativeCount = 0;
+            }
         } else if (isAlphabetical(token)){ /* if function */
             if(isConstant(token)){
                 st_push(outputStack,token);
+            } else if ( strcmp(token,INVERT_N) == 0 || strcmp(token,INVERT_M) == 0 || strcmp(token,INVERT_UNDERSCORE) == 0 ){ ;
+                negativeCount++;
             } else {
-                st_push(operatorStack,token);
-            }
+                st_push(operatorStack,token); 
+            }          
         } else if(strlen(token) == 1 && isOperand(token[0])) { /* if op */
             if(!st_isEmpty(operatorStack)){
                 op = (*((char*)st_peek(operatorStack))); /* get top operator - single char*/
