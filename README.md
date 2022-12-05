@@ -4,6 +4,7 @@ A simple C calculator I made for fun using the shunting yard algorithm to genera
 Supports a variety of functions and operators.
 
 The power symbol `^` is considered to be right associative, such as in python, and unlike C.
+For more information, run `./calc HELP`
 
 ## Build Instructions
 ```
