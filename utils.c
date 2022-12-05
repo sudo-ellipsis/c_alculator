@@ -51,7 +51,7 @@ int isAlphabetical(char* str){
 
 int isFunction(char* str){
     int i,retval = FALSE;
-    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, POW10};
+    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL};
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(validFunctions[i],str) == 0){
             retval = TRUE;
