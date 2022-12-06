@@ -10,7 +10,6 @@ long double fabsl(long double x);
 long double floorl(long double x);
 long double roundl(long double x);
 long double ceill(long double x);
-long double expl(long double x);
 long double asinl(long double x);
 long double acosl(long double x);
 long double atanl(long double x);

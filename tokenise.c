@@ -20,11 +20,11 @@ Stack_t* tokenise(char* str){
         bufLength=0; /* reset buffer index */
         if(!isIgnorable(token)){
             if(isAlphabeticalChar(token)){ /* if regular char */
-                while(isAlphabeticalChar(token) && currentChar < (int)strlen(str) && !isFunction(buf)){ /* while chars read are alphabetical */
+                while(isAlphabeticalChar(token) && bufLength < (int)strlen(str) && !isFunction(buf) &&!isConstant(buf)){ /* while chars read are alphabetical */
                     buf[bufLength] = token; /* write token to buffer */
                     currentChar++; /* advance one character in input string */
                     bufLength++; /* advance to next buffer address */
-                    token = str[currentChar]; /* update token */
+                    token = str[currentChar]; /* update token */  
                 }
                 currentChar--; /* avoid over-increment */
                 data = malloc((bufLength + 1) * sizeof(char)); /* allocate memory for token w/ nullptr space */

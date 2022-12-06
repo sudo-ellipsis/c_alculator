@@ -21,4 +21,6 @@ long double radToDeg(long double angle);
 long double factorial(long double x);
 long double pow10(long double x);
 long double invert(long double x);
+void printHelp(void);
+
 #endif

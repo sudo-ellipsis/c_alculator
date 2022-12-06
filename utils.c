@@ -52,7 +52,7 @@ int isAlphabetical(char* str){
 
 int isFunction(char* str){
     int i,retval = FALSE;
-    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, INVERT_N, INVERT_M, INVERT_UNDERSCORE};
+    char* validFunctions[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, INVERT_N, INVERT_M, INVERT_UNDERSCORE};
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(validFunctions[i],str) == 0){
             retval = TRUE;
@@ -64,7 +64,7 @@ int isFunction(char* str){
 int isConstant(char* str){
    int i, retval = FALSE;
    char* constants[CONSTANT_COUNT] = {PI_ID,PHI_ID,EUL_ID};
-   for(i=0;i<2;i++){
+   for(i=0;i<CONSTANT_COUNT;i++){
         if(strcmp(constants[i],str) == 0){
             retval = TRUE;
         }
@@ -218,4 +218,40 @@ long double pow10(long double x){
 
 long double invert(long double x){
     return -1 * x;
+}
+
+void printHelp(void){
+    printf(
+    "calc - a simple C calculator by ellipsis (@sudo-ellipsis, ellipsis#1984)\n"
+    "--------------------------------------------------------\n"
+    "IMPORTANT NOTES:\n"
+    "All trigonometric calculations take and return radians\n"
+    "All non operator or alphabetical characters will be discarded\n"
+    "All values are calculated as long doubles\n"
+    "To express scientific notation, use a large \x1b[32mE\033[39m (1\x1b[32mE\033[39m3 == 1000)\n"
+    );
+    printf(
+    "Negative numbers are expressed using \x1b[32m_\033[39m, \x1b[32mn\033[39m or \x1b[32mm\033[39m\nNegating a number takes precedence over all other operations (\x1b[32m_\033[39m3\x1b[32m^\033[39m2 == 9)\n"
+    );
+    printf(
+    "VALID OPERATORS:\n"
+    "\x1b[32m+\033[39m, \x1b[32m-\033[39m, \x1b[32m*\033[39m, \x1b[32m/\033[39m,\x1b[32m %%\033[39m, \x1b[32m^\033[39m\n"
+    "The power operator [\x1b[32m^\033[39m] is right associative (2\x1b[32m^\033[39m2\x1b[32m^\033[39m3 == 256)\n"
+    );
+    printf(
+    "VALID FUNCTIONS:\n"
+    "All functions take exactly one argument\n"
+    "\x1b[32msin\033[39m(), \x1b[32mcos\033[39m(), \x1b[32mtan\033[39m()\n"
+    "\x1b[32masin\033[39m(), \x1b[32macos\033[39m(), \x1b[32matan\033[39m()\n"
+    "\x1b[32mtoRad\033[39m(), \x1b[32mtoDeg\033[39m()\n"
+    "\x1b[32mround\033[39m(), \x1b[32mfloor\033[39m(), \x1b[32mceil\033[39m()\n"
+    );
+    printf(
+    "\x1b[32mlog\033[39m() [base 10], \x1b[32mln\033[39m() [base e]\n"
+    "\x1b[32mabs\033[39m(), \x1b[32msqrt\033[39m(), \x1b[32mcbrt\033[39m(), \x1b[32mfactorial\033[39m()\n"
+    "VALID CONSTANTS:\n"
+    "\x1b[32mpi\033[39m, \x1b[32mphi\033[39m, \x1b[32me\033[39m\n"
+    "--------------------------------------------------------\n"
+    );
+    return;
 }

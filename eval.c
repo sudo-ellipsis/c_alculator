@@ -12,8 +12,8 @@
 
 
 mathFn findMathFn(char* functionName){
-    char* functionNames[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, EXP, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, INVERT_N, INVERT_M, INVERT_UNDERSCORE};
-    mathFn functions[FUNCTION_COUNT] = {&sinl,&cosl,&tanl,&log10l,&logl,&fabsl,&floorl,&roundl,&ceill,&expl,&asinl,&acosl,&atanl,&sqrtl,&cbrtl,&degToRad, &radToDeg, &factorial, &invert, &invert, &invert};
+    char* functionNames[FUNCTION_COUNT] = {SIN, COS, TAN, LOG10, LOGE, ABS, FLOOR, ROUND, CEIL, ARCSIN, ARCCOS, ARCTAN, SQRT, CBRT,TORAD, TODEG, FACTORIAL, INVERT_N, INVERT_M, INVERT_UNDERSCORE};
+    mathFn functions[FUNCTION_COUNT] = {&sinl,&cosl,&tanl,&log10l,&logl,&fabsl,&floorl,&roundl,&ceill,&asinl,&acosl,&atanl,&sqrtl,&cbrtl,&degToRad, &radToDeg, &factorial, &invert, &invert, &invert};
     int i,fn;
     for(i=0;i<FUNCTION_COUNT;i++){
         if(strcmp(functionName,functionNames[i])==0){

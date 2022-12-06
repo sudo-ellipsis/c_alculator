@@ -1,6 +1,7 @@
 #ifndef CALC_H
 #define CALC_H
 
+
 /* directions */
 #define LEFT_ASSOCIATIVE 0
 #define RIGHT_ASSOCIATIVE 1
@@ -36,7 +37,7 @@
 #define INPUT_BUFSIZE ((int)1023)
 
 /* function definitions */
-#define FUNCTION_COUNT 21
+#define FUNCTION_COUNT 20
 #define SIN "sin"
 #define COS "cos"
 #define TAN "tan"
@@ -46,7 +47,6 @@
 #define FLOOR "floor"
 #define ROUND "round"
 #define CEIL "ceil"
-#define EXP "exp"
 #define ARCSIN "asin"
 #define ARCCOS "acos"
 #define ARCTAN "atan"
