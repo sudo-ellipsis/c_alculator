@@ -53,7 +53,7 @@ Token_t* doOperation(Token_t* operand, Token_t* firstValue, Token_t* secondValue
             break;
     }
     result->type = decimal; /* set to double type */
-    sprintf(result->value,"%Lf",resultantVal); /* convert back to string */
+    sprintf(result->value,"%Lg",resultantVal); /* convert back to string */
     /* remove used tokens */
     free(operand->value);
     free(operand);
@@ -68,7 +68,7 @@ Token_t* doFunction(Token_t* function, Token_t* arg){
     Token_t* result = malloc(sizeof(Token_t));
     long double db = getDoubleOfNumeric(arg->value,arg->type); /* convert tokent to double */
     result->value = malloc(64*sizeof(char)); /* malloc space for the char - oversized */
-    sprintf(result->value,"%Lf",findMathFn(function->value)(db)); /* evaluate function and reconvert to string */
+    sprintf(result->value,"%Lg",findMathFn(function->value)(db)); /* evaluate function and reconvert to string */
     result->type = decimal; /* set type of value to double */
 
     /* free useless tokens */

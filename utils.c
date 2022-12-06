@@ -210,9 +210,6 @@ long double factorial(long double x){
 }
 
 long double pow10(long double x){
-    if(x < 0){ /* stupid off by one where pow (10,-2) == 0.1 */
-        x--;
-    }
     return powl(10,x);
 }
 
