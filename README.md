@@ -10,7 +10,7 @@ For more information, run `./calc HELP`
 
 
 
-## Build Instructions
+## Building
 ```bash
 make
 make clean
@@ -34,10 +34,15 @@ Brackets are not required for function calls (for example, negation is a bracket
 Negation does not require a bracket, as it is always associated with the next value. (`_3^2` will return `9`)
 
 Trigonometric functions: `sin()`, `cos()`, `tan()`, `asin()`, `acos()`, `atan()`
+
 Conversions: `toRad()`, `toDeg()`
+
 Rounding: `round()`, `ceil()`, `floor()`
+
 Powers: `log()` [base 10], `ln()`
+
 Other: `abs()`, `sqrt()`, `cbrt()`, `factorial()`
+
 Negation: `_`, `n`, `m`.
 
 ### Operators
