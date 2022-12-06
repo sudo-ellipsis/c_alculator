@@ -54,7 +54,7 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
         } else if (strlen(token) == 1 && token[0] == RBR && !st_isEmpty(operatorStack)) { /* if right bracket */
             op = *((char*)st_peek(operatorStack));
             while(op != LBR){ /* pop all operators until left bracket found */
-                if(st_isEmpty(operatorStack)){
+                if(operatorStack->length == 0){
                     raiseError("Mismatched parenthesis! Right parenthesis with no match!\n",st_peek(tokens));
                 }
                 st_push(outputStack,st_pop(operatorStack)); /* push from op stack to output */
@@ -63,14 +63,16 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
             if(strlen((char*)st_peek(operatorStack)) != 1 && *((char*)st_peek(operatorStack)) != LBR){
                 raiseError("Mismatched parenthesis! No left parenthesis at stack top!\n",st_peek(tokens));
             } else {
-                st_pop(operatorStack); /* discard the left parenthesis */
+                free(st_pop(operatorStack)); /* discard the left parenthesis */
             } 
             if(!st_isEmpty(operatorStack) && isAlphabetical(st_peek(operatorStack))){ /* if top of op stack is a function */
                 st_push(outputStack,st_pop(operatorStack)); /* move it to output stack */
             } else {
+                free(token);
             }
         } else {
             raiseError("Token Ignored! Token provided was not numeric, alphabetical, operand or valid bracket\n",token);
+            free(token);
         }
     }
     while(!st_isEmpty(operatorStack)){ /* while tokens are on operator stack */
@@ -80,5 +82,6 @@ Stack_t* rpn(Stack_t* tokens){ /* uses shunting yard to translate a token list f
         st_push(outputStack, st_pop(operatorStack)); /* move the tokens over */   
     }
     st_deleteStack(operatorStack);
+    st_deleteStack(tokens);
     return outputStack; /* the output is reversed from regular RPN */
 }

@@ -11,6 +11,7 @@ Mostly just short flexible utilities (e.g, is a given string numeric)
 
 /* extern includes */
 #include"calc.h"
+#include"__math.h"
 
 int isAlphabeticalChar(char ch){
     return (strchr("abcdefghijklmnopqrstuvwxyzABCDFGHIJKLMNOPQRSTUVWXYZ_",ch) != NULL); /* no capital E, it's reserved as the scientific operator */
@@ -180,42 +181,41 @@ Type getTokenDatatype(char* token){
     return retval;
 }
 
-double getDoubleOfNumeric(char* value,Type type){
-    double db;
+long double getDoubleOfNumeric(char* value,Type type){
+    long double db;
     if(isConstant(value)){
         db = getConstantValue(value);
     } else {
         if (type == integer){
             int i;
             sscanf(value,"%d",&i);
-            db = (double)i;
+            db = (long double)i;
         } else {
-            sscanf(value,"%lf",&db);
+            sscanf(value,"%Lf",&db);
         }
     }
     return db;
 }
 
-double degToRad(double angle){
+long double degToRad(long double angle){
     return angle * PI/180;
 }
 
-double radToDeg(double angle){
+long double radToDeg(long double angle){
     return angle * 180 / PI;
 }
 
-double tgamma(double);
-double factorial(double x){
-    return tgamma(x+1);
+long double factorial(long double x){
+    return tgammal(x+1);
 }
 
-double pow10(double x){
+long double pow10(long double x){
     if(x < 0){ /* stupid off by one where pow (10,-2) == 0.1 */
         x--;
     }
-    return pow(10,x);
+    return powl(10,x);
 }
 
-double invert(double x){
+long double invert(long double x){
     return -1 * x;
 }

@@ -1,5 +1,3 @@
-- errors on function lookup
-- fix bracket error raises
 - safe exit on error
 - test
 - finish writing stack lib (for fun!)

@@ -29,9 +29,9 @@
 #define PI_ID "pi"
 #define PHI_ID "phi"
 #define EUL_ID "e"
-#define PHI ((double)1.61803398874989484820)
-#define PI ((double)3.141592653589793)
-#define EUL ((double)2.7182818285)
+#define PHI ((long double)1.61803398874989484820)
+#define PI ((long double)3.141592653589793)
+#define EUL ((long double)2.7182818285)
 
 #define INPUT_BUFSIZE ((int)1023)
 
@@ -73,7 +73,7 @@ typedef struct{
     Type type;
 } Token_t;
 
-typedef double (*mathFn)(double);
+typedef long double (*mathFn)(long double);
 
 
 #endif

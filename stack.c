@@ -42,7 +42,7 @@ void* st_peek(Stack_t* stack){ /* return topmost */
 
 void st_deleteStack(Stack_t* stack){ /* recursively delete stack */
     while(!st_isEmpty(stack)){
-        st_pop(stack);
+        free(st_pop(stack));
     }
     free(stack);
     return;

@@ -60,7 +60,7 @@ int main(int argc, char** argv){
             printHelp();
         } else {
             result = evaluateRPN(rpn(tokenise(input)));
-            printf("%-.16g\n",getDoubleOfNumeric(result->value,result->type));
+            printf("%-.16Lg\n",getDoubleOfNumeric(result->value,result->type));
             free(result->value);
             free(result);
         }
@@ -75,7 +75,7 @@ int main(int argc, char** argv){
                     /* printf("Evaluating [%s]\n",input); */
                     result = evaluateRPN(rpn(tokenise(input)));
                     if(result->type == decimal || result->type == integer){
-                        printf("\033[1;35m%-.16g\033[39m\n",getDoubleOfNumeric(result->value,result->type));
+                        printf("\033[1;35m%-.16Lg\033[39m\n",getDoubleOfNumeric(result->value,result->type));
                     } else {
                         printf("\033[1;31mNaN\033[39m\n");
                     }
